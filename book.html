@@ -12,14 +12,14 @@
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Book an Inspection | Warrington Damp Proofing</title>
-<meta name="description" content="Book a free damp inspection with Warrington Damp Proofing. Fast, friendly response from a local, qualified team.">
+<title>Book an Inspection or Survey | Warrington Damp Proofing</title>
+<meta name="description" content="Book a free damp inspection or request a paid damp survey report with Warrington Damp Proofing. Fast, friendly response from a local, qualified team.">
 <link rel="canonical" href="https://www.warringtondampproofing.co.uk/book.html">
 <meta name="robots" content="index, follow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Warrington Damp Proofing">
-<meta property="og:title" content="Book an Inspection | Warrington Damp Proofing">
-<meta property="og:description" content="Book a free damp inspection with Warrington Damp Proofing. Fast, friendly response from a local, qualified team.">
+<meta property="og:title" content="Book an Inspection or Survey | Warrington Damp Proofing">
+<meta property="og:description" content="Book a free damp inspection or request a paid damp survey report with Warrington Damp Proofing. Fast, friendly response from a local, qualified team.">
 <meta property="og:url" content="https://www.warringtondampproofing.co.uk/book.html">
 <meta property="og:image" content="https://www.warringtondampproofing.co.uk/assets/logo-square.png">
 <meta name="theme-color" content="#2952E3">
@@ -198,13 +198,19 @@ footer.site a:hover{color:#fff}
 
 <div class="band band--blue">
   <div class="wrap">
-    <p class="eyebrow" style="color:#B9CCFF">Book an inspection</p>
-    <h1>Book a Free Damp Inspection</h1>
-    <p class="lede">Tell us a bit about your property and the problem you're seeing, and we'll be in touch to arrange a convenient time.</p>
+    <p class="eyebrow" style="color:#B9CCFF">Book an inspection or survey</p>
+    <h1>Book a Free Inspection or Request a Survey</h1>
+    <p class="lede">Tell us a bit about your property and what you need, and we'll be in touch to arrange a convenient time.</p>
   </div>
 </div>
 <div class="band"><div class="wrap" style="max-width:640px">
   <form id="bookForm">
+    <div class="field"><label>What do you need? <span class="req">*</span></label>
+      <select name="requestType" id="requestType" required>
+        <option value="Free Damp Inspection">Free Damp Inspection &mdash; no cost, no obligation</option>
+        <option value="Damp Survey Report (Paid, from £150)">Damp Survey Report &mdash; paid, from &pound;150</option>
+      </select>
+    </div>
     <div class="cols c2">
       <div class="field"><label>Full Name <span class="req">*</span></label><input type="text" name="name" required></div>
       <div class="field"><label>Phone Number <span class="req">*</span></label><input type="tel" name="phone" required></div>
@@ -219,16 +225,26 @@ footer.site a:hover{color:#fff}
     </div>
     <div class="field"><label>Preferred Date</label><input type="date" name="date"></div>
     <div class="field"><label>Additional Details</label><textarea name="details" placeholder="Tell us what you're seeing and where..."></textarea></div>
-    <button type="submit" class="btn btn-wide">Book My Free Inspection &rarr;</button>
+    <button type="submit" class="btn btn-wide" id="bookSubmit">Submit Request &rarr;</button>
     <p class="note center">We'll confirm your appointment by phone or email within one working day.</p>
   </form>
 </div></div>
 <script>
+const reqType = document.getElementById('requestType');
+const submitBtn = document.getElementById('bookSubmit');
+function updateSubmitLabel(){
+  submitBtn.textContent = reqType.value.startsWith('Free') ? 'Book My Free Inspection →' : 'Request My Damp Survey →';
+}
+reqType.addEventListener('change', updateSubmitLabel);
+updateSubmitLabel();
+
 document.getElementById('bookForm').addEventListener('submit', function(e){
   e.preventDefault();
   const d = new FormData(this);
-  const body = `Name: ${d.get('name')}%0D%0APhone: ${d.get('phone')}%0D%0AEmail: ${d.get('email')}%0D%0AAddress: ${d.get('address')}%0D%0AIssue: ${d.get('issue')}%0D%0APreferred Date: ${d.get('date')}%0D%0ADetails: ${d.get('details')}`;
-  window.location.href = 'mailto:info@warringtondampproofing.co.uk?subject=' + encodeURIComponent('Inspection Booking Request') + '&body=' + body;
+  const type = d.get('requestType');
+  const body = `Request Type: ${type}%0D%0A%0D%0AName: ${d.get('name')}%0D%0APhone: ${d.get('phone')}%0D%0AEmail: ${d.get('email')}%0D%0AAddress: ${d.get('address')}%0D%0AIssue: ${d.get('issue')}%0D%0APreferred Date: ${d.get('date')}%0D%0ADetails: ${d.get('details')}`;
+  const subject = (type.startsWith('Free') ? 'FREE INSPECTION Request' : 'PAID SURVEY Request') + ' — ' + d.get('name');
+  window.location.href = 'mailto:info@warringtondampproofing.co.uk?subject=' + encodeURIComponent(subject) + '&body=' + body;
 });
 </script>
 
